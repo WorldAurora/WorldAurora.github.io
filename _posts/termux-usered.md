@@ -1,0 +1,55 @@
+---
+title: termux使用笔记
+date: 2019-09-24 15:19:42
+tags: termux
+---
+还是挺喜欢在手机上用 termux 的，毕竟可以随身携带
+这篇文章具体[参考](https://blog.csdn.net/qq_42471423/article/details/90582792)
+在 termux 中，音量减代表 ctrl
+
+## pkg 基本命令
+
+```
+pkg search <query>              搜索包
+pkg install <package>           安装包
+pkg uninstall <package>         卸载包
+pkg reinstall <package>         重新安装包
+pkg update                      更新源
+pkg upgrade                     升级软件包
+pkg list-all                    列出可供安装的所有包
+pkg list-installed              列出已经安装的包
+pkg shoe <package>              显示某个包的详细信息
+pkg files <package>             显示某个包的相关文件夹路径
+```
+
+## 更换镜像源
+
+设置默认编辑器
+
+```
+export EDITOR=vim
+```
+
+编辑配置文件
+
+```
+apt edit-sources
+```
+
+## Termux 优化
+
+样式使用 [Termux-ohmyzsh](https://github.com/Cabbagec/termux-ohmyzsh)
+
+一键安装
+
+```
+sh -c "$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)"
+```
+
+暂时使用的样式是14和6
+
+## 访问外储存
+
+```
+termux-setup-storage
+```

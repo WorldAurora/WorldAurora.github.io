@@ -1,0 +1,114 @@
+---
+title: vim的使用笔记 5
+date: 2019-09-11 17:04:15
+tags: vim
+---
+之前有稍微学习过vim的使用，但由于之前学习的零碎杂乱，在此重新专门系统的学习一下vim，教程为[PegasuWang的vim学习视频](https://www.imooc.com/learn/1129)，博客内容为我的学习笔记。
+
+## vim插件管理
+
+和视频演示的一样,我选择的插件管理工具也是[vim-plug](https://github.com/junegunn/vim-plug),官网中有一键安装的方式,但我使用的方法是直接git仓库,将 plug.vim 文件复制到 rtp 目录的 autoload 目录下
+
+```
+call plug#begin('~/[rtp]/plugged')
+Plug [filename]
+...
+call plug#end()
+```
+之后使用
+:PlugInstall 安装
+:PlugClean 清理
+
+## vim插件
+
+我基本上安装了视频中所有演示的插件
+
+'mhinz/vim-startify'
+开屏插件
+
+'vim-airline/vim-airline'
+'vim-airline/vim-airline-themes'
+状态栏的插件
+
+'yggdroot/indentline'
+缩进线的插件
+
+'ctrlpvim/ctrlp.vim'
+查找文件名的插件
+vim配置文件中加入下面代码
+- ctrl+p可快速调用
+
+```
+let g:ctrlp_map = '<c-p>'
+```
+
+'scrooloose/nerdtree'
+文件树形图的插件
+vim配置文件中加入以下代码实现
+- leader+g 展示树形图
+- leader+v 在树形图中定位当前文件
+- 显示隐藏文件
+- 忽略配置的文件
+
+```
+nnoremap <leader>v :NERDTreeFind<cr>
+nnoremap <leader>g :NERDTreeToggle<cr>
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.git$','\.swp$']
+```
+
+'easymotion/vim-easymotion'
+根据字符定位的插件
+vim配置文件中加入以下代码实现
+- ss 使用功能
+
+```
+nmap ss <Plug>(easymotion-s2)
+```
+
+'tpope/vim-surround'
+成对操作的插件
+使用下面的命令进行操作
+- ys[对象][字符] 在对象的两边加入字符
+- ds[对象][字符] 删除对象两边的字符
+- cs[old][new] 将old换成new
+
+'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+'junegunn/fzf.vim'
+模糊搜索(文件名,字符串(需要安装Ag))
+使用下面的命令进行操作
+- :Files [directory] 找文件,会进入输入的目录内,在进行后续查找
+- :[Ag](https://github.com/ggreer/the_silver_searcher) [Strings] 根据字符串找到相应文件的内容行
+
+
+Plug 'brooth/far.vim'
+查询替换插件
+使用下面的命令进行操作
+- :Far [old] [new] [filename] 对所选文件进行单词替换
+- :Fardo 保存更改
+
+Plug 'python-mode/python-mode', {'for': 'python', 'branch': 'develop'}
+轻量级python ide
+具体操作查看[官方文档](https://github.com/python-mode/python-mode)
+
+Plug 'lfv89/vim-interestingwords'
+高亮选择单词
+- <leader>k 高亮所选词
+- n/N 下/上切换
+- <leader>K 取消高亮
+
+Plug 'majutsushi/tagbar'
+代码大纲
+在 .vimrc 配置以下文件后可使用 <leader>t 快捷键
+- nnoremap <leader>t :TagbarToggle<CR>
+
+- 需要安装[ctags](https://github.com/universal-ctags/ctags)
+克隆后进入目录使用以下代码编译
+
+``` bash
+pacman -S gcc make pkg-config autoconf automake
+./autogen.sh
+./configure --prefix=/usr/local
+make
+make install
+```

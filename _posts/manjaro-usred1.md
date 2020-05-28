@@ -1,0 +1,75 @@
+---
+title: manjaro的使用
+date: 2019-09-03 20:06:19
+tags: manjaro
+---
+之前的系统我用的都是debian，工作环境不是很美观，于是决定转战manjaro，但是之前使用manjaro出现很多问题，由于没经验不会解决，在昨天用了一天时间总算是用上manjaro了。
+ps:之前使用manjaro，主要的问题是系统自带的某些软件版本太低了，我之前想得又太复杂了，其实之需要更新一下系统就好了。
+
+manjaro安装完成后，我需要做的第一件事便是换源，不然默认源的下载速度着实是感人
+
+``` bash
+sudo pacman-mirrors -i -c China -m rank
+```
+
+命令执行完成后图形化界面会跳出来几个源来供选择，也可以使用以下命令来让系统自行判断使用源
+
+``` bash
+sudo pacman-mirrors -g
+```
+
+上述命令因为需要一个个的判断，所以花费的时间较长，换源后就可以跟新系统了
+
+``` bash
+sudo pacman -Syy
+```
+
+上面的命令是强制更新软件包数据库的，一般换完源后使用这个命令的下载速度就会变快了
+可以直接使用命令更新系统
+
+``` bash
+sudo pacman -Syyu
+```
+
+更新系统的过程中会有复数条确认信息，逐条回复 y 后便可以继续更新了
+配置 /etc/pacman.conf 文件，最后一行加入
+
+```
+[archlinuxcn]
+SigLevel = Optional TrustedOnly
+Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch
+```
+
+虽然不知道明确的意义，但这个文件最好还是配置上吧
+接着是安装 GPG key ，不安装就装不上谷歌浏览器和搜狗拼音
+
+``` bash
+sudo pacman -Syy
+sudo pacman -S archlinuxcn-keyring
+```
+
+安装谷歌浏览器
+
+``` bash
+sudo pacman -S google-chrome
+```
+
+安装搜狗拼音
+
+``` bash
+sudo pacman -S fcitx-im
+sudo pacman -S fcitx-configtool
+sudo pacman -S fcitx-sogoupinyin
+```
+
+再配置 ～/.xprofile 文件
+
+```
+export GTK_IM_MODULE=fcitx
+
+export QT_IM_MODULE=fcitx
+
+export XMODIFIERS="@im=fcitx"
+```
+
+这样我基本的配置就完成了

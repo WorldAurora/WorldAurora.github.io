@@ -1,0 +1,90 @@
+---
+title: arch的图形化安装配置
+date: 2019-09-18 12:16:07
+tags: arch
+---
+
+## 配置显卡
+
+因为我的电脑是双显卡的笔记本，所以安装显卡的步骤比较麻烦，一般电脑直接安装对应显卡即可
+配置需开启 multilib ,即配置 /etc/pacman.conf ,将下面两行前的注释去除
+
+``` bash
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+之后进行显卡的安装配置
+
+``` bash
+pacman -S bumblebee mesa nvidia xf86-video-intel
+pacman -S lib32-virtualgl lib32-nvidia-utils
+```
+
+将用户添加到 bumblebee 组
+
+``` base
+gpasswd -a username bumblebee
+```
+
+启用 bumblebee 服务
+
+``` base
+systemctl enable bumblebeed
+```
+
+## 安装图形界面
+
+安装x窗口
+
+``` bash
+pacman -S xorg
+```
+
+安装触摸板驱动
+
+``` bash
+pacman -S xf86-input-synaptics
+```
+
+安装中文字体
+
+``` bash
+pacman -S ttf-dejavu wqy-microhei
+```
+
+### 安装桌面环境
+
+下面二选一
+
+#### 安装kde桌面
+
+``` bash
+pacman -S plasma
+pacman -S konsole
+pacman -S dolphin
+pacman -S kde-applications
+pacman -S plasma-nm
+```
+
+启用服务
+
+``` bash
+systemctl enable sddm
+```
+
+#### 安装gnome
+
+``` bash
+pacman -S gnome
+pacman -S gnome-tweak-tool
+pacman -S alacarte
+```
+
+启用服务
+
+``` bash
+systemctl enable gdm
+```
+
+这样图形化界面就安装好了

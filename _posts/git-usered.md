@@ -1,0 +1,79 @@
+---
+title: git的使用
+date: 2019-09-05 00:23:06
+tags: git
+---
+git是我在建立这个博客时从[菜鸟教程](https://www.runoob.com/git/git-tutorial.html)上学会的远程仓库工具,我并没有深入的理解它,这篇文章也只是记录下我目前对git的使用方法
+
+## 创建仓库
+
+``` bash
+git init {filename}
+```
+
+使用以上命令即可创建仓库,若无文件名,则使用当前目录建立仓库
+
+## 克隆仓库
+
+``` bash
+git clone git@github.com:WorldAurora/test.git         --SSH协议
+git clone git://github.com/WorldAurora/test.git       --GIT协议
+git clone https://github.com/WorldAurora/test.git     --HTTPS协议
+```
+
+以上方式都可以从远程仓库克隆文件,但第一种需要认证
+
+## git本地仓库的使用
+
+``` bash
+git add {filename}
+```
+
+使用以上命令即可将文件添加到缓存区
+
+``` bash
+git status
+```
+
+对缓存区的是否有修改进行查看
+
+``` bash
+git commit -m "test"
+```
+
+将缓存区的内容写入仓库, -m 参数是添加后边的文本说明
+
+## git远程仓库的使用
+
+要对远程仓库进行操作,先创建 ssh key 文件,并将文件内容在github上配置好
+
+``` bash
+ssh-keygen -t rsa -C "your_email@youremail.com"
+```
+
+使用以下命令判断是否配置成功
+
+``` bash
+ssh -T git@github.com
+```
+
+接着设置git的配置
+
+``` bash
+git config --global user.name "your name"
+git config --global user.email "your_email@youremail.com"
+```
+
+在需要上传的仓库下配置好远程地址,为其命名{origin}
+
+``` bash
+git remote add origin git@github.com:yourName/yourRepo.git
+```
+
+使用下面的命令就可以将命名好的仓库推送到远程仓库上了
+
+``` bash
+git push origin master
+```
+
+至此告一段落

@@ -1,0 +1,141 @@
+---
+title: archlinux 的安装配置
+date: 2019-09-18 11:34:27
+tags: arch
+---
+虽然之前有配置过arch，但时间一长就容易忘记，这次将安装配置的过程记录在博客上
+
+## 安装arch
+
+在弄好u盘启动后
+### 更新系统时间
+
+``` bash
+timedatectl set-ntp true
+```
+
+### 分区
+查看硬盘
+
+``` bash
+lsblk
+```
+
+使用cfdisk工具进行分区
+
+``` bash
+cfdisk
+```
+我的分区没有细分，最简单的分区就分个引导区和根目录就行了
+之后挂载好分区
+
+``` bash
+mount /dev/sda2 /mnt
+mkdir /mnt/boot/EFi
+mount /dev/sda1 /mnt/boot/EFI
+```
+### 安装
+
+配置下镜像源， /etc/pacman.d/mirrorlist ,将 china 那行移至第一行，或者在第一号手动输入配置的镜像源
+之后就可以安装系统了
+
+``` bash 
+pacstrap /mnt base
+```
+
+配置系统分区文件
+
+``` bash
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+
+之后就可以进入系统了
+
+``` bash
+arch-chroot /mnt
+```
+### 配置系统
+
+配置时区
+
+``` bash
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+hwclock --systohc
+```
+
+本地化，配置 /etc/locale.gen
+将下面两项前的注释去除
+
+``` bash
+en_US.UTF-8 UTF-8
+zh_CN.UTF-8 UTF-8
+```
+
+之后执行以生成配置文件
+
+``` bash
+locale-gen
+```
+
+创建 /etc/locale.conf 文件
+注意这里不能配置中文，否则会乱码
+
+``` bash
+LANG=en_US.UTF-8
+```
+
+创建 /etc/hostname 文件
+在其中输入你想定义的主机名
+添加对应信息到 /etc/hosts
+
+``` bash
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	hostname.localdomain	hostname
+```
+
+###  配置用户
+
+设置 root 用户密码
+
+``` bash
+passwd
+```
+
+建立普通用户
+
+``` bash
+useradd -m -g users -s /bin/bash username
+```
+
+为普通用户设置密码
+
+``` bash
+passwd username
+```
+
+### 网络连接
+
+之后图形化界面用的上
+
+``` bash
+pacman -S networkmanager
+```
+
+启动服务
+
+``` bash
+systemctl enabel NetworkManager
+```
+
+### 安装引导
+
+这里写的是 UEFI 的引导配置
+
+``` bash
+pacman -S dosfstools grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+这里 arch 的安装就完成了，但并没有进行图形化的安装，之后在后一篇进行图形化的配置

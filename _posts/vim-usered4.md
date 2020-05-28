@@ -1,0 +1,76 @@
+---
+title: vim的使用笔记 4
+date: 2019-09-07 22:32:15
+tags: vim
+---
+之前有稍微学习过vim的使用，但由于之前学习的零碎杂乱，在此重新专门系统的学习一下vim，教程为[PegasuWang的vim学习视频](https://www.imooc.com/learn/1129)，博客内容为我的学习笔记。
+
+## vim配置
+
+vim的配置文件linux一般在 ~/.vimrc ,我现在在学习 neovim ,它的配置文件位置有所不同:
+Linux:
+~/config/nvim/init.vim
+Windows:
+~/AppData/Local/nvim/init.vim
+
+基本配置如下
+
+```
+" 常用设置
+" 设置行号
+set number
+" 主题
+set termguicolors
+set background=dark
+colorscheme hybrid
+" 高亮搜索
+set hlsearch
+" 设置折叠方式
+set foldmethod=indent
+" 设置语法高亮
+syntax on
+" 换行缩进
+set autoindent
+```
+
+## vim中的映射
+映射就是把 一个操作 映射到 另一个操作
+
+vim中的映射比较复杂,源于vim有多种模式
+
+设置 leader 键:
+
+```
+let mapleader=","
+```
+
+常用的是逗号或空格
+
+### 基本映射
+
+基本映射指normal模式下的映射，当然还有其他模式的映射
+* 使用 map 就可以实现映射，比如
+:map - x ,按下 - 就会实现 x 的功能
+:map <soace> viw ,按下空格就会选中整个单词
+:map <C-d> dd ,按下 ctrl+d 执行 dd 删除一行
+
+### 模式映射
+
+vim常用模式 normal/visual/insert 都可以定义映射
+* 用 nmap/vmap/imap 定义映射只在 normal/visual/insert 分别有效
+:vmap \ U ,在visual模式下,按下 \ x将改变选中的文本为大写(u/U转换大小写)
+
+### map映射问题
+
+当定义了一个映射的行为时,可以将该映射其定义到另一个映射的行为(类似于递归)
+map系列命令有递归的风险
+* 如果你安装了一个插件,插件映射了同一个按键的不同行为,有冲突就会有一个失效
+* 解决方案就是使用非递归映射
+
+### 非递归映射
+
+vim提供了非递归映射,这些命令不会递归稀释
+* 使用 map 对应的 nnoremap/vnoremap/inoremap
+* 任何时候都应该使用非递归映射,拯救自己和插件作者
+
+深入学习可以参考[笨方法学Vimscript](http://learnvimscriptthehardway.onefloweroneworld.com/)
