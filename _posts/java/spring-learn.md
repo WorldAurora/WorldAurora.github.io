@@ -1,7 +1,10 @@
 ---
-title: Spring的学习使用
-date: 2019-10-01 10:38:03
-tags: spring
+layout: post
+title: "Spring的学习使用"
+subtitle: "以前写下的对maven配置的记录，迁移到我的新博客"
+date: 2019-08-19 22:12:06
+author: "Aurora"
+tags: java
 ---
 
 ## Spring

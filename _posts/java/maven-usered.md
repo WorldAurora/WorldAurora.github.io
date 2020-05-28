@@ -1,7 +1,10 @@
 ---
-title: maven的学习使用
-date: 2019-09-29 10:38:03
-tags: maven
+layout: post
+title: "maven的学习使用"
+subtitle: "以前写下的对maven配置的记录，迁移到我的新博客"
+date: 2019-08-19 22:12:06
+author: "Aurora"
+tags: java
 ---
 本来是想去学习Spring的，但学习Spring需要一点maven的基础，于是决定去学习一下maven，于是在[谷粒学院](http://www.gulixueyuan.com/my/course/42)学习了一下maven
 

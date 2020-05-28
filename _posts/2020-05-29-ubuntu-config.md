@@ -1,6 +1,9 @@
 ---
-title: ubuntu双显卡配置
-date: 2019-12-10 17:31:24
+layout: post
+title: "ubuntu显卡配置"
+subtitle: "以前写下的对ubuntu显卡的配置，迁移到我的新博客"
+date: 2019-08-19 22:12:06
+author: "Aurora"
 tags: ubuntu
 ---
 黑苹果折腾了半天没装上，暂时放弃，我的笔记本安装manjaro的话，nvidia显卡不知道选哪个好，安装archlinux又太麻烦，所以暂且安装了ubuntu，在这里记录以下显卡配置。
