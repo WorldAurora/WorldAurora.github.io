@@ -129,8 +129,11 @@ Vue.component("base-checkbox", {
 
 #### 插槽
 
-通过插槽分发内容
+通过插槽\<slot />分发内容
 
+跟 v-on 和 v-bind 一样，v-slot 也有缩写，即把参数之前的所有内容 (v-slot:) 替换为字符 #
+
+> 和其它指令一样，缩写只在其有参数的时候才可用
 > slot 和 slot-scope 这两个目前已被废弃但未被移除
 
 ##### 作用域
@@ -141,7 +144,39 @@ Vue.component("base-checkbox", {
 
 有时我们需要多个插槽,对于这样的情况，\<slot> 元素有一个特殊的 attribute：name。这个 attribute 可以用来定义额外的插槽
 
+##### 作用域插槽
+
+让插槽内容能够访问子组件中才有的数据是很有用的
+
+绑定在 <slot> 元素上的 attribute 被称为插槽 prop
+
 在向具名插槽提供内容的时候，我们可以在一个 \<template> 元素上使用 v-slot 指令，并以 v-slot 的参数的形式提供其名称
+
+```html
+<template v-slot:@params></template>
+```
+
+> 注意 v-slot 只能添加在 \<template> 上 (只有**一种例外情况**)，这一点和已经废弃的 slot attribute 不同。
+> 在上述情况下，当被提供的内容只有默认插槽时，组件的标签才可以被当作插槽的模板来使用。这样我们就可以把 v-slot 直接用在组件上
+> 默认插槽的缩写语法不能和具名插槽混用
+
+在父级作用域中，我们可以使用带值的 v-slot 来定义我们提供的插槽 prop 的名字
+
+```html
+<current-user>
+  <template v-slot:default="slotProps">
+    {{ slotProps.user.firstName }}
+  </template>
+</current-user>
+```
+
+##### 解构插槽 Prop
+
+作用域插槽的内部工作原理是将你的插槽内容包括在一个传入单个参数的函数里
+
+这意味着 v-slot 的值实际上可以是任何能够作为函数定义中的参数的 JavaScript 表达式。所以在支持的环境下 (单文件组件或现代浏览器)，你也可以使用 ES2015 解构来传入具体的插槽 prop
+
+> 甚至可以定义后备内容，用于插槽 prop 是 undefined 的情形
 
 #### is
 
@@ -166,7 +201,9 @@ Vue.component("base-checkbox", {
 - 单文件组件 (.vue)
 - \<script type="text/x-template">
 
-### next
+可以用一个 \<keep-alive> 元素将其动态组件包裹起来, 这样组件会保持它的状态 (选中状态) 甚至当它未被渲染时也是如此
+
+### 更多
 
 #### 全局注册
 
@@ -183,3 +220,27 @@ components: object
 `components` 选项中定义你想要使用的组件
 
 > 局部注册的组件在其子组件中不可用
+
+#### 异步组件
+
+在大型应用中，我们可能需要将应用分割成小一些的代码块，并且只在需要的时候才从服务器加载一个模块。Vue 允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。Vue 只有在这个组件需要被渲染的时候才会触发该工厂函数，且会把结果缓存起来供未来重渲染。
+
+其实就是在工厂函数中返回一个 Promise
+
+#### 进一步处理
+
+```js
+const AsyncComponent = () => ({
+  // 需要加载的组件 (应该是一个 `Promise` 对象)
+  component: import("./MyComponent.vue"),
+  // 异步组件加载时使用的组件
+  loading: LoadingComponent,
+  // 加载失败时使用的组件
+  error: ErrorComponent,
+  // 展示加载时组件的延时时间。默认值是 200 (毫秒)
+  delay: 200,
+  // 如果提供了超时时间且组件加载也超时了，
+  // 则使用加载失败时使用的组件。默认值是：`Infinity`
+  timeout: 3000,
+});
+```
