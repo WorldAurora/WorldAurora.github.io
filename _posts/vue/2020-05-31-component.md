@@ -113,7 +113,7 @@ Vue.component("base-checkbox", {
 
 ##### vm.\$listeners
 
-\$listeners: { [key: string]: Function | Array<Function> }
+\$listeners: { [key: string]: Function | Array\<Function> }
 
 包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="\$listeners" 传入内部组件——在创建更高层次的组件时非常有用。
 
@@ -127,13 +127,25 @@ Vue.component("base-checkbox", {
 
 当我们用一个对象同时设置多个 prop 的时候，也可以将这个 .sync 修饰符和整个 v-bind 配合使用
 
-#### slot
+#### 插槽
 
-通过插槽\<slot />分发内容
+通过插槽分发内容
+
+> slot 和 slot-scope 这两个目前已被废弃但未被移除
+
+##### 作用域
+
+父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
+
+##### 具名插槽
+
+有时我们需要多个插槽,对于这样的情况，\<slot> 元素有一个特殊的 attribute：name。这个 attribute 可以用来定义额外的插槽
+
+在向具名插槽提供内容的时候，我们可以在一个 \<template> 元素上使用 v-slot 指令，并以 v-slot 的参数的形式提供其名称
 
 #### is
 
-可以通过 Vue 的 <component> 元素加一个特殊的 is attribute 来实现
+可以通过 Vue 的 \<component> 元素加一个特殊的 is attribute 来实现
 
 ```javascript
 <component v-bind:is="currentTabComponent"></component>
