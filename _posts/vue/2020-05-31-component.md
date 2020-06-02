@@ -85,7 +85,7 @@ type 可以是下列原生构造函数中的一个：String、Number、Boolean�
 
 一个组件上的 v-model 默认会利用名为 value 的 prop 和名为 input 的事件
 
-可以通过设置 model 来处理一些比较特殊的双向绑定:
+可以通过设置 model 来处理一些比较特殊的双向绑定,一个自定义组件在使用 v-model 时定制 prop 和 event。默认情况下，一个组件上的 v-model 会把 value 用作 prop 且把 input 用作 event，但是一些输入类型比如单选框和复选框按钮可能想使用 value prop 来达到不同的目的。使用 model 选项可以回避这些情况产生的冲突。:
 
 ```javascript
 Vue.component("base-checkbox", {
